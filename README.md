@@ -1,57 +1,89 @@
-# 👁️ Interação por Visão Computacional
+# Sistema Anti-Colisão para o Setor Agrícola com IA
 
-Este projeto tem como objetivo criar um sistema de interação humano-computador baseado em visão computacional em tempo real.
+Este projeto tem como objetivo desenvolver um sistema inteligente de prevenção de colisões para ambientes agrícolas, utilizando técnicas de **Inteligência Artificial**, **Visão Computacional** e **Aprendizado de Máquina**.
 
-A ideia principal é permitir que o computador interprete movimentos faciais e o olhar do usuário para gerar interações, sem necessidade de teclado ou mouse.
-
----
-
-## 🎯 Objetivo final do projeto
-
-O sistema evoluirá para permitir:
-
-- Detecção e rastreamento facial em tempo real
-- Estimativa de direção do olhar (eye tracking)
-- Controle do cursor do mouse por movimento da cabeça/olhos
-- Seleção de elementos na tela por fixação do olhar
-- Sistema de comunicação baseado em seleção de letras
+A proposta é identificar obstáculos, pessoas, máquinas ou animais em tempo real por meio de câmera, analisando a cena com **YOLO** e **OpenCV**, para então emitir alertas e ajudar na redução de acidentes em operações no campo.
 
 ---
 
-## 🧠 Tecnologias planejadas
+## Objetivo
 
-- Python
-- OpenCV (fase inicial)
-- MediaPipe (fase principal)
-- Possíveis extensões com bibliotecas de automação de interface
+Criar uma solução capaz de:
 
----
-
-## 📌 Etapas do projeto
-
-### ✔ Fase 1 — Base (OpenCV)
-- Captura de webcam
-- Detecção de rosto com Haar Cascade
-- Renderização em tempo real
-
-### 🚧 Fase 2 — Rastreamento avançado
-- Uso de MediaPipe Face Mesh
-- Extração de landmarks faciais
-- Estimativa de direção do olhar
-
-### 🚀 Fase 3 — Interação
-- Controle de cursor
-- Seleção por olhar
-- Interface de comunicação
+- detectar objetos em ambientes agrícolas;
+- identificar possíveis riscos de colisão;
+- auxiliar na segurança de operadores e máquinas;
+- aplicar conceitos de IA em um problema real e relevante.
 
 ---
 
-## 💡 Motivação
+## Por que este projeto usa IA?
 
-Este projeto explora conceitos de visão computacional aplicados à acessibilidade e interação humano-computador, permitindo novas formas de controle de dispositivos sem contato físico.
+Este projeto usa IA porque a detecção de objetos em tempo real exige que o sistema **aprenda padrões visuais** e consiga reconhecer elementos no ambiente sem depender apenas de regras fixas.
+
+A inteligência artificial entra principalmente em:
+
+- **detecção de objetos com YOLO**;
+- **análise automática de imagens/vídeos**;
+- **identificação de risco de colisão**;
+- **apoio à tomada de decisão em tempo real**.
+
+Assim, o sistema não apenas “olha” para a imagem, mas interpreta o cenário de forma inteligente.
 
 ---
 
-## 📚 Status
+## Tecnologias utilizadas
 
-Em desenvolvimento (fase inicial com OpenCV)
+- **Python**
+- **OpenCV**
+- **YOLO**
+- **Machine Learning**
+- **Redes Neurais**
+- **NumPy**
+- **Bibliotecas de apoio para processamento de imagem e vídeo**
+
+---
+
+## Funcionalidades
+
+- captura de vídeo em tempo real;
+- detecção automática de objetos;
+- análise de proximidade e risco;
+- alerta visual em caso de possível colisão;
+- base para expansão com novos modelos e regras de segurança.
+
+---
+
+## Fluxo do sistema
+
+1. A câmera captura o ambiente.
+2. O vídeo é processado pelo OpenCV.
+3. O modelo YOLO identifica objetos na cena.
+4. O sistema analisa a posição e proximidade dos elementos detectados.
+5. Caso haja risco, um alerta é gerado.
+6. O operador recebe apoio para evitar acidentes.
+
+---
+
+## Relevância do projeto
+
+No contexto agrícola, a segurança é um fator essencial. Máquinas de grande porte, baixa visibilidade, movimento constante e presença de pessoas no ambiente aumentam o risco de acidentes.
+
+Este projeto propõe uma solução baseada em IA para:
+- reduzir riscos;
+- aumentar a segurança operacional;
+- apoiar a automação inteligente;
+- aplicar tecnologia em um cenário real do setor agrícola.
+
+---
+
+## Estrutura do projeto
+
+```bash
+.
+├── main.py
+├── model/
+├── data/
+├── utils/
+├── README.md
+└── requirements.txt
