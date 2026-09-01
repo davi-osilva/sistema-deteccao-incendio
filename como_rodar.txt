@@ -1,0 +1,72 @@
+SOMPO / OMEGA — COMO RODAR (versão integrada com a API real)
+
+O QUE MUDOU
+------------
+Este dashboard não usa mais o modelo local (modelo_risco.pkl) nem o banco
+sompo.db. Aqueles usavam sensores que o projeto não tem (vibração, horas de
+uso, dias desde manutenção, falhas anteriores).
+
+Agora o Flask é só a "vitrine": ele chama a API Omega de verdade (API
+Gateway + Lambda + RDS Postgres, a mesma que o ESP32 usa) e mostra o que
+está gravado lá. O modelo de IA que roda é o XGBoost do Omega.
+
+Os arquivos modelo_risco.pkl, treinar_modelo.py, equipamentos.csv e
+sompo.db ficaram no repositório só como referência antiga; não são mais
+usados pelo app.py.
+
+1. Abra esta pasta no VS Code.
+2. Abra o terminal nesta pasta.
+3. Instale as dependências:
+   pip install -r requirements.txt
+4. Defina as variáveis de ambiente da API Omega antes de rodar
+   (no MESMO terminal em que vai rodar o python):
+
+   Linux/Mac:
+     export OMEGA_API_URL="https://SEU_ID.execute-api.us-east-1.amazonaws.com"
+     export OMEGA_API_TOKEN="o_token_da_api"
+     export OMEGA_MAQUINAS="TRATOR_001"        # separadas por vírgula se tiver mais de uma
+
+   Aceita também OMEGA_URL / OMEGA_TOKEN (aliases).
+
+   Windows (PowerShell):
+     $env:OMEGA_API_URL="https://SEU_ID.execute-api.us-east-1.amazonaws.com"
+     $env:OMEGA_API_TOKEN="o_token_da_api"
+     $env:OMEGA_MAQUINAS="TRATOR_001"
+
+   Confira se o terminal “enxerga” as variáveis:
+     echo $OMEGA_API_URL
+     echo $OMEGA_API_TOKEN
+
+   Teste a API direto (sem Flask):
+     curl -s "$OMEGA_API_URL/" 
+     curl -s -H "Authorization: Bearer $OMEGA_API_TOKEN" "$OMEGA_API_URL/telemetria"
+
+IMPORTANTE SOBRE O MAC / OUTRO PC
+---------------------------------
+- O dashboard NÃO conecta no IP do RDS. Quem fala com o Postgres é a
+  Lambda na AWS. No Mac você só precisa de internet + URL + token.
+- O IP do RDS ser o mesmo não muda nada neste app.
+- export só vale naquele terminal. Se fechar e abrir outro, precisa
+  exportar de novo (ou colocar no ~/.zshrc).
+- No Mac, não reuse o .venv do Linux: faça um novo:
+    python3 -m venv .venv
+    source .venv/bin/activate
+    pip install -r requirements.txt
+- Abra sempre http://127.0.0.1:5000 (pelo Flask), não o app.html
+  direto no Finder.
+
+5. Execute:
+   python app.py
+6. Abra no navegador:
+   http://127.0.0.1:5000
+
+IMPORTANTE
+----------
+- O token da API Omega fica só no ambiente do servidor Flask (variável
+  OMEGA_API_TOKEN). O navegador nunca vê o token: ele só fala com este
+  Flask, na mesma origem, então não existe problema de CORS.
+- Se a API Omega estiver fora do ar ou as variáveis não estiverem
+  configuradas, o dashboard mostra "Não foi possível ler a API Omega" nas
+  tabelas em vez de travar.
+- Duas telas: Frota (estado atual) e Máquina (cálculo + histórico).
+  O ESP32 envia a temperatura; o dashboard só lê o RDS.

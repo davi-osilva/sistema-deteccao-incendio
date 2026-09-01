@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Omega · Sompo</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="side-brand">
+        <div class="mark" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M5 7.5C5 6.12 6.12 5 7.5 5h9C17.88 5 19 6.12 19 7.5v9c0 1.38-1.12 2.5-2.5 2.5h-9C6.12 19 5 17.88 5 16.5v-9Z"
+              stroke="rgba(255,255,255,.7)" stroke-width="1.7" />
+            <path d="M8 15l8-6" stroke="rgba(42,169,255,.95)" stroke-width="2" stroke-linecap="round" />
+            <path d="M8 9l8 6" stroke="rgba(38,215,163,.95)" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </div>
+        <div class="title">
+          <strong>Omega</strong>
+          <span>Sompo · risco térmico</span>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="#" data-route="frota" class="active"><span class="ic">📊</span><span>Frota</span></a>
+        <a href="#" data-route="maquina"><span class="ic">🚜</span><span>Máquina</span></a>
+      </nav>
+
+      <div class="side-footer">
+        <div class="row"><span>API</span><span class="status-dot" id="dot-api"></span></div>
+        <div class="row"><span>Modelo</span><span class="status-dot" id="dot-modelo"></span></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div class="breadcrumb">
+          <div class="crumb" id="crumb">Frota</div>
+          <div class="h" id="pageTitle">Estado atual</div>
+        </div>
+        <div class="actions">
+          <button class="icon-btn menu-btn" type="button" id="menu-btn" aria-label="Abrir menu">☰</button>
+          <button class="icon-btn icon-btn-light" type="button" id="btn-atualizar" aria-label="Atualizar">↻</button>
+        </div>
+      </div>
+
+      <section class="page active" data-page="frota">
+        <div class="grid frota-topo">
+          <div class="grid frota-kpis">
+            <div class="card kpi-card">
+              <div class="kpi-top">
+                <div class="kpi-title">Máquinas</div>
+              </div>
+              <div class="kpi-value" id="kpi-total">—</div>
+              <div class="kpi-sub">No painel agora</div>
+            </div>
+            <div class="card kpi-card tone-red">
+              <div class="kpi-top">
+                <div class="kpi-title">Risco alto</div>
+              </div>
+              <div class="kpi-value" id="kpi-vermelho">—</div>
+              <div class="kpi-sub">Inspeção imediata</div>
+            </div>
+            <div class="card kpi-card tone-yellow">
+              <div class="kpi-top">
+                <div class="kpi-title">Risco médio</div>
+              </div>
+              <div class="kpi-value" id="kpi-amarelo">—</div>
+              <div class="kpi-sub">Acompanhar de perto</div>
+            </div>
+            <div class="card kpi-card tone-green">
+              <div class="kpi-top">
+                <div class="kpi-title">Risco baixo</div>
+              </div>
+              <div class="kpi-value" id="kpi-ok">—</div>
+              <div class="kpi-sub" id="kpi-ok-sub">—</div>
+            </div>
+          </div>
+
+          <div class="card frota-dist">
+            <div class="chart-title">
+              <div><strong>Distribuição</strong><span>Nível de risco da frota</span></div>
+            </div>
+            <div class="pad dist-body">
+              <div class="donut-wrap">
+                <button type="button" class="donut" id="dist-donut" aria-label="Distribuição de risco — clique em uma faixa"></button>
+                <div class="donut-center">
+                  <strong id="dist-total">—</strong>
+                  <span id="dist-label">Total</span>
+                </div>
+              </div>
+              <div class="dist-legend" id="dist-list"></div>
+            </div>
+            <p class="section-sub dist-foot">Score: baixo até 40 · médio até 70 · alto acima de 70</p>
+          </div>
+        </div>
+
+        <div class="card frota-agora">
+          <div class="chart-title">
+            <div><strong>Agora</strong><span>Último score de cada máquina</span></div>
+            <span class="badge" id="badge-atualizado">—</span>
+          </div>
+          <div class="table-wrap">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Máquina</th>
+                  <th>Temperatura</th>
+                  <th>Score</th>
+                  <th>Risco</th>
+                  <th>Data/hora</th>
+                </tr>
+              </thead>
+              <tbody id="ranking-body">
+                <tr>
+                  <td colspan="5" class="empty-state">Carregando…</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" data-page="maquina">
+        <div class="card">
+          <div class="pad maquina-head">
+            <div>
+              <p class="section-sub" style="margin:0 0 6px">Máquina</p>
+              <select class="select-maquina select-inline" id="select-maquina" aria-label="Máquina"></select>
+            </div>
+            <div class="maquina-meta">
+              <span id="detalhe-tag"></span>
+              <p class="section-sub" id="detalhe-data" style="margin:8px 0 0">—</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid cards-2 maquina-calc" style="margin-top:14px;">
+          <div class="card score-hero">
+            <div class="pad">
+              <div class="kpi-title">Score atual</div>
+              <div class="score-hero-row">
+                <div class="kpi-value score-big" id="detalhe-score">—</div>
+                <div class="score-legend">
+                  <span>0</span><span>40</span><span>70</span><span>100</span>
+                </div>
+                <div class="score-scale"><i id="score-meter"></i></div>
+                <p class="section-sub" id="analise-meta" style="margin:12px 0 0">—</p>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="pad">
+              <div class="kpi-title" style="margin-bottom:14px">Composição do score</div>
+              <div class="fator-list" id="detalhe-fatores"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:14px;">
+          <div class="chart-title">
+            <div><strong>Score no tempo</strong><span>0–100 · baixo / médio / alto</span></div>
+          </div>
+          <div class="chart-frame" id="spark-score"></div>
+        </div>
+
+        <div class="card" style="margin-top:14px;">
+          <div class="chart-title">
+            <div><strong>Leituras</strong><span>Mais recente primeiro</span></div>
+            <div class="btn-row" style="margin:0">
+              <button class="btn-small" type="button" id="btn-export-pdf">
+                <span class="btn-ico" aria-hidden="true">⇩</span> PDF
+              </button>
+              <button class="btn-small" type="button" id="btn-export-csv">
+                <span class="btn-ico" aria-hidden="true">⇩</span> CSV
+              </button>
+            </div>
+          </div>
+          <p class="section-sub pad" id="relatorio-msg" style="padding-top:0"></p>
+          <div class="table-wrap">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Quando</th>
+                  <th>Temp.</th>
+                  <th>Umidade</th>
+                  <th>Score</th>
+                  <th>Nível</th>
+                </tr>
+              </thead>
+              <tbody id="historico-body">
+                <tr>
+                  <td colspan="5" class="empty-state">Carregando…</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+
+</html>
